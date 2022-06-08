@@ -1,0 +1,20 @@
+<h1>Patient Upload</h1>
+
+<p>Please use the button below to upload patients via .csv files.</p>
+<br />
+
+<input type="file" accept=".csv" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+<div class="file-upload">
+
+  <button class="btn btn-primary"
+          (click)="fileUpload.click()">
+    Upload
+  </button>
+
+  {{fileName || "No file uploaded yet."}}
+
+</div>
+
+
+
