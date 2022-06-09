@@ -1,26 +1,23 @@
 <h1 id="tableLabel">View Patients</h1>
 
-<p *ngIf="!patients"><em>Loading...</em></p>
+<p>To delete a patient, click on its corresponding row. More than one row at a time may be selected by pressing Ctrl or Shift and then clicking!</p>
+
 
 <!-- Button to clear selection -->
-<!--  <button (click)="clearSelection()">Clear Selection</button>  -->
-<!-- AG Grid Angular Component -->
+<button class="btn btn-primary" (click)="clearSelection()">Clear Selection</button>
+<br />
+<br />
+<button class="btn btn-primary" (click)="deleteRows()">Delete Selected</button>
 
-<table class='table table-striped' aria-labelledby="tableLabel" *ngIf="patients">
-  <thead>
-    <tr>
-      <th>First Name</th>
-      <th>Last Name</th>
-      <th>Birthday</th>
-      <th>Gender</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let patient of patients">
-      <td>{{ patient.firstName }}</td>
-      <td>{{ patient.lastName }}</td>
-      <td>{{ patient.birthday }}</td>
-      <td>{{ patient.gender }}</td>
-    </tr>
-  </tbody>
-</table>
+<!-- AG Grid Angular Component -->
+<ag-grid-angular style="width: 100%; height: 500px"
+                 class="ag-theme-alpine"
+                 [columnDefs]="columnDefs"
+                 [defaultColDef]="defaultColDef"
+                 [rowData]="rowData$ | async"
+                 [rowSelection]="'multiple'"
+                 [animateRows]="true"
+                 (gridReady)="onGridReady($event)"
+                 (cellValueChanged)="onCellValueChanged($event)">
+
+</ag-grid-angular>

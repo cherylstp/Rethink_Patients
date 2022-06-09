@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Patients.Database;
 using Patients.Models;
+using System;
 using System.Collections.Generic;
 
 namespace Patients.Controllers
@@ -13,7 +14,6 @@ namespace Patients.Controllers
 
         public PatientController()
         {
-            // _dataAccessLayer = patientDataAccess;
             _dataAccessLayer = new PatientDataAccessLayer();
         }
 
@@ -34,16 +34,16 @@ namespace Patients.Controllers
         // Put because we're replacing the entire entity here, and not just one field (in which case we'd use Patch)
         [HttpPut]
         [Route("Update")]
-        public void UpdatePatient(Patient patient)
+        public void UpdatePatient([FromBody] Patient patient)
         {
             _dataAccessLayer.UpdatePatient(patient);
         }
 
         [HttpDelete]
-        [Route("Delete")]
-        public void DeletePatient(Patient patient)
+        [Route("Delete/{id}")]
+        public void DeletePatient(int id)
         {
-            _dataAccessLayer.DeletePatient(patient);
+            _dataAccessLayer.DeletePatient(id);
         }
 
     }

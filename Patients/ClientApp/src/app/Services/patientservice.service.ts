@@ -1,5 +1,5 @@
 import { Injectable, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { Patient } from '../Models/Patient';
@@ -25,6 +25,14 @@ export class PatientService {
   addPatients(patients: Patient[]): Observable<any> {
     return this.http.post<any>("api/Patient/Create", patients, this.headers);
   }
+
+  updatePatient(patient: Patient): Observable<any> {
+    return this.http.put<Patient>("api/Patient/Update", patient, this.headers);
+  }
+
+  deletePatient(patientId: number): Observable<any> {
+    return this.http.delete<number>("api/Patient/Delete/" + patientId, this.headers);
+  } 
 
 }
 
