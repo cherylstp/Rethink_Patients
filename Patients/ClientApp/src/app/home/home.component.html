@@ -1,12 +1,13 @@
 <h1 id="tableLabel">View Patients</h1>
-<h2>HENLO</h2>
 
-<p *ngIf="!patients"><em>Loading...</em></p>
-
+<p>To delete a patient, click on its corresponding row. More than one row at a time may be selected by pressing Ctrl or Shift and then clicking!</p>
 
 
 <!-- Button to clear selection -->
 <button class="btn btn-primary" (click)="clearSelection()">Clear Selection</button>
+<br />
+<br />
+<button class="btn btn-primary" (click)="deleteRows()">Delete Selected</button>
 
 <!-- AG Grid Angular Component -->
 <ag-grid-angular style="width: 100%; height: 500px"
@@ -17,4 +18,6 @@
                  [rowSelection]="'multiple'"
                  [animateRows]="true"
                  (gridReady)="onGridReady($event)"
-                 (cellClicked)="onCellClicked($event)"></ag-grid-angular>
+                 (cellValueChanged)="onCellValueChanged($event)">
+
+</ag-grid-angular>

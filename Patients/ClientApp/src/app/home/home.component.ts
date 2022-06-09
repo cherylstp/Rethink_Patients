@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Patient } from '../Models/Patient';
 import { PatientService } from '../Services/patientservice.service';
 import { AgGridAngular } from 'ag-grid-angular';
-import { CellClickedEvent, ColDef, GridReadyEvent } from 'ag-grid-community';
+import { CellClickedEvent, CellValueChangedEvent, ColDef, GridReadyEvent, RowEditingStoppedEvent } from 'ag-grid-community';
 import { Observable } from 'rxjs';
 
 
@@ -23,16 +23,12 @@ export class HomeComponent {
     { field: 'birthday' },
     { field: 'gender' }
   ]; 
-  /*public columnDefs: ColDef[] = [
-    { field: 'make' },
-    { field: 'model' },
-    { field: 'price' }
-  ]; */
 
   // DefaultColDef sets props common to all Columns
   public defaultColDef: ColDef = {
     sortable: true,
     filter: true,
+    editable: true
   };
 
   // Data that gets displayed in the grid
@@ -46,32 +42,48 @@ export class HomeComponent {
   }
 
   ngOnInit() {
-    // Let's get the patients from the db right away
-   /* this.service.getPatients().subscribe(result => {
-      this.patients = result;
-    }, error => console.log(error)); */
   }
 
-  // Example load data from sever
+  // Load the patients into the grid
   onGridReady(params: GridReadyEvent) {
     this.rowData$ = this.service.getPatients();
   }
-  /*onGridReady(params: GridReadyEvent) {
-    this.rowData$ = this.http
-      .get<any[]>('https://www.ag-grid.com/example-assets/row-data.json');
-  }*/
 
-  // Example of consuming Grid Event
-  onCellClicked(e: CellClickedEvent): void {
-    console.log('cellClicked', e);
+  // Used for editing / updating purposes
+  onCellValueChanged(e: CellValueChangedEvent) {
+    console.log("event", e);
+    this.service.updatePatient(e.data).subscribe(result => {
+      console.log(result);
+    }, error => console.log(error));
   }
 
-  // Example using Grid's API
+  deleteRows() {
+    const selectedRows: IPatient[] = this.agGrid.api.getSelectedRows()
+
+    // remove rows from the grid
+    this.agGrid.api.applyTransaction({ remove: selectedRows });
+
+    // delete the data from the db
+    selectedRows.forEach(row => {
+      this.service.deletePatient(row.id).subscribe(result => {
+        console.log("Deletion success!");
+      }, error => console.log(error));
+    });
+  }
+
   clearSelection(): void {
     this.agGrid.api.deselectAll();
   }
 
 
+}
+
+interface IPatient {
+  id: number,
+  firstName: string,
+  lastName: string,
+  birthday: string,
+  gender: string
 }
 
 

@@ -48,7 +48,7 @@ namespace Patients.Database
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
 
         }
@@ -76,18 +76,52 @@ namespace Patients.Database
             }
             catch (Exception e)
             {
-
+                Console.WriteLine(e.Message);
             }
 
         }
 
-        public void DeletePatient(Patient patientToDelete)
+
+        public void DeletePatient(int patientId)
         {
-            using (var _context = new PatientContext(_dbContextOptionsBuilder.Options))
+            try
             {
-                _context.Patients.Remove(patientToDelete);
-                _context.SaveChangesAsync();
+                using (var _context = new PatientContext(_dbContextOptionsBuilder.Options))
+                {
+
+                    Patient patientFromDb = _context.Patients.Find(patientId);
+                    _context.Patients.Remove(patientFromDb);
+                    _context.SaveChangesAsync();
+                }
             }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+        }
+
+
+        // would like to delete in bulk, so we don't need to save multiple times
+        public void DeletePatients(List<int> patientsToDelete)
+        {
+            try
+            {
+                using (var _context = new PatientContext(_dbContextOptionsBuilder.Options))
+                {
+                    foreach(int patientId in patientsToDelete)
+                    {
+                        Patient patientFromDb = _context.Patients.Find(patientId);
+                        _context.Patients.Remove(patientFromDb);
+                    }           
+                    _context.SaveChangesAsync();
+                }
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+            
         }
     }
 }

@@ -15,14 +15,14 @@ namespace Patients.Database
 
         public DbSet<Patient> Patients { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
+      /*  protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Patient>().HasKey(table => new {
                 table.FirstName,
                 table.LastName,
                 table.Birthday
             });
-        }
+        } */
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
