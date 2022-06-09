@@ -44,7 +44,8 @@ export class PatientUploadComponent implements OnInit {
 
         let patientsToAdd: Patient[] = this.createPatientObjects(rows);
         this.service.addPatients(patientsToAdd).subscribe(result => {
-          console.log(result);
+          // update the user to let them know the file has been uploaded.
+          this.fileName = "Success!";
         }, error => console.log(error));
 
       }

@@ -47,6 +47,12 @@ export class HomeComponent {
   // Load the patients into the grid
   onGridReady(params: GridReadyEvent) {
     this.rowData$ = this.service.getPatients();
+
+    // workaround for ag-grid height collapse
+    // css is the worst
+    this.agGrid.api = params.api;
+    this.agGrid.columnApi = params.columnApi;
+    this.agGrid.api.setDomLayout("autoHeight");
   }
 
   // Used for editing / updating purposes
