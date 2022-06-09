@@ -8,6 +8,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { HomeComponent } from './home/home.component';
 import { PatientUploadComponent } from './patient-upload/patient-upload.component';
 import { PatientService } from './Services/patientservice.service';
+import { AgGridModule } from 'ag-grid-angular';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { PatientService } from './Services/patientservice.service';
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AgGridModule
   ],
   providers: [
     PatientService
